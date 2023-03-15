@@ -1,3 +1,4 @@
+import 'package:dead_and_injured/pages/help_page.dart';
 import 'package:flutter/material.dart';
 
 import 'bl/bl.dart';
@@ -13,6 +14,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      title: "Dead and Injured",
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
       ),
@@ -23,6 +25,24 @@ class App extends StatelessWidget {
 
 class Home extends StatelessWidget {
   const Home({Key? key}) : super(key: key);
+
+  void goToHelpPage(BuildContext context) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => const HelpPage(),
+    ));
+  }
+
+  void goToPlayGame(BuildContext context) {
+    Navigator.pushAndRemoveUntil(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GameScreen(
+          guestVal: generate4diffnumber(),
+        ),
+      ),
+      (route) => false,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,22 +67,20 @@ class Home extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 12),
-              Align(
-                alignment: Alignment.center,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => GameScreen(
-                          guestVal: generate4diffnumber(),
-                        ),
-                      ),
-                      (route) => false,
-                    );
-                  },
-                  child: const Text('Start Game'),
-                ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  OutlinedButton.icon(
+                    onPressed: () => goToHelpPage(context),
+                    icon: const Icon(Icons.info),
+                    label: const Text("help"),
+                  ),
+                  const SizedBox(width: 20),
+                  ElevatedButton(
+                    onPressed: () => goToPlayGame(context),
+                    child: const Text('Start Game'),
+                  ),
+                ],
               ),
             ],
           ),
