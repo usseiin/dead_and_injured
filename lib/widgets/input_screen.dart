@@ -14,8 +14,8 @@ class InputScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        alignment: Alignment.center,
-        color: Colors.grey,
+        padding: const EdgeInsets.only(top: 20),
+        alignment: Alignment.topCenter,
         child: Text(
           '${rew.split('').join(' ')}\n\n\n${value.split('').join(' ')}',
           textAlign: TextAlign.center,

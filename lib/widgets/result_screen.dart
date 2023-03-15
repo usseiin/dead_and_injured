@@ -11,22 +11,20 @@ class ResultScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: SingleChildScrollView(
+      flex: 2,
+      child: ListView(
         reverse: true,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            ...List.generate(
-              res.length,
-              (index) => ListTile(
-                leading: Text(res[index]['play'] as String),
-                title: Text(
-                  res[index]['result'] as String,
-                ),
+        children: [
+          ...List.generate(
+            res.length,
+            (index) => ListTile(
+              leading: Text(res[index]['play'] as String),
+              title: Text(
+                res[index]['result'] as String,
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

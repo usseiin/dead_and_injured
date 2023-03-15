@@ -22,10 +22,63 @@ class _GameScreenState extends State<GameScreen> {
   String rew = "****";
 
   List<Map<String, String>> res = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void clear() {
+    value = '';
+    setState(() {});
+  }
+
+  void play() {
+    if (value.length == 4) {
+      final result = deadAndInjured(
+        value.split('').toSet(),
+        widget.guestVal,
+      );
+      res.insert(
+        0,
+        {
+          'play': value,
+          'result': result,
+        },
+      );
+      if (result.contains('4 dead')) {
+        showDialog(
+          context: context,
+          builder: (context) {
+            return const PopScreen();
+          },
+        );
+      }
+      value = '';
+      setState(() {});
+    }
+  }
+
+  void remove() {
+    if (value.isNotEmpty) {
+      value = value.substring(0, value.length - 1);
+      setState(() {});
+    }
+  }
+
+  void textOnClick(int index) {
+    if (value.length < 4 && !value.contains(index.toString())) {
+      value = '$value$index';
+    }
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(),
+      appBar: AppBar(
+        title: const Text("Dead and Injured"),
+      ),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -36,63 +89,34 @@ class _GameScreenState extends State<GameScreen> {
                 child: Row(
                   children: [
                     ResultScreen(res: res),
+                    Container(color: Colors.grey, width: 5),
                     InputScreen(rew: rew, value: value),
                   ],
                 ),
               ),
               SizedBox(
                 height: 75,
-                child: Row(
-                  children: [
-                    const SizedBox(width: 35),
-                    ElevatedButton(
-                      onPressed: () {
-                        value = '';
-                        setState(() {});
-                      },
-                      child: const Text('clear'),
-                    ),
-                    const SizedBox(width: 35),
-                    const Expanded(child: SizedBox()),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (value.length == 4) {
-                          final result = deadAndInjured(
-                            value.split('').toSet(),
-                            widget.guestVal,
-                          );
-                          res.add(
-                            {
-                              'play': value,
-                              'result': result,
-                            },
-                          );
-                          if (result.contains('4 dead')) {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const PopScreen();
-                              },
-                            );
-                          }
-                          value = '';
-                          setState(() {});
-                        }
-                      },
-                      child: const Text('play'),
-                    ),
-                    const SizedBox(width: 35),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (value.isNotEmpty) {
-                          value = value.substring(0, value.length - 1);
-                          setState(() {});
-                        }
-                      },
-                      child: const Icon(Icons.clear),
-                    ),
-                    const SizedBox(width: 35),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      ElevatedButton(
+                        onPressed: clear,
+                        child: const Text('clear'),
+                      ),
+                      const SizedBox(width: 35),
+                      const Expanded(child: SizedBox()),
+                      ElevatedButton(
+                        onPressed: play,
+                        child: const Text('play'),
+                      ),
+                      const SizedBox(width: 35),
+                      ElevatedButton(
+                        onPressed: remove,
+                        child: const Icon(Icons.clear),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Wrap(
@@ -104,18 +128,10 @@ class _GameScreenState extends State<GameScreen> {
                   ...List.generate(
                     10,
                     (index) => GestureDetector(
-                      onTap: () {
-                        if (value.length < 4 &&
-                            !value.contains(index.toString())) {
-                          value = '$value$index';
-                        }
-                        setState(() {});
-                      },
+                      onTap: () => textOnClick(index),
                       child: CircleAvatar(
                         radius: 30,
-                        child: Text(
-                          index.toString(),
-                        ),
+                        child: Text(index.toString()),
                       ),
                     ),
                   ),
