@@ -1,6 +1,5 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
 import 'package:flutter/material.dart';
+import 'dart:developer';
 
 import '../bl/bl.dart';
 import '../widgets/widgets.dart';
@@ -42,57 +41,56 @@ class _GameScreenState extends State<GameScreen> {
               ),
               SizedBox(
                 height: 75,
-                child: Row(
-                  children: [
-                    const SizedBox(width: 35),
-                    ElevatedButton(
-                      onPressed: () {
-                        value = '';
-                        setState(() {});
-                      },
-                      child: const Text('clear'),
-                    ),
-                    const SizedBox(width: 35),
-                    const Expanded(child: SizedBox()),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (value.length == 4) {
-                          final result = deadAndInjured(
-                            value.split('').toSet(),
-                            widget.guestVal,
-                          );
-                          res.add(
-                            {
-                              'play': value,
-                              'result': result,
-                            },
-                          );
-                          if (result.contains('4 dead')) {
-                            showDialog(
-                              context: context,
-                              builder: (context) {
-                                return const PopScreen();
-                              },
-                            );
-                          }
+                child: SingleChildScrollView(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      ElevatedButton(
+                        onPressed: () {
                           value = '';
                           setState(() {});
-                        }
-                      },
-                      child: const Text('play'),
-                    ),
-                    const SizedBox(width: 35),
-                    ElevatedButton(
-                      onPressed: () {
-                        if (value.isNotEmpty) {
-                          value = value.substring(0, value.length - 1);
-                          setState(() {});
-                        }
-                      },
-                      child: const Icon(Icons.clear),
-                    ),
-                    const SizedBox(width: 35),
-                  ],
+                        },
+                        child: const Text('clear'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (value.length == 4) {
+                            log("guess value ${widget.guestVal}");
+                            final result = deadAndInjured(
+                              value.split('').toSet(),
+                              widget.guestVal,
+                            );
+                            res.add(
+                              {
+                                'play': value,
+                                'result': result,
+                              },
+                            );
+                            if (result.contains('4 dead')) {
+                              showDialog(
+                                context: context,
+                                builder: (context) {
+                                  return const PopScreen();
+                                },
+                              );
+                            }
+                            value = '';
+                            setState(() {});
+                          }
+                        },
+                        child: const Text('play'),
+                      ),
+                      ElevatedButton(
+                        onPressed: () {
+                          if (value.isNotEmpty) {
+                            value = value.substring(0, value.length - 1);
+                            setState(() {});
+                          }
+                        },
+                        child: const Icon(Icons.clear),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               Wrap(

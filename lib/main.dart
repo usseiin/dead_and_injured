@@ -13,6 +13,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Home(),
     );
   }
@@ -28,20 +29,23 @@ class Home extends StatelessWidget {
           child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => GameScreen(
-                      guestVal: generate4diffnumber(),
+            Center(
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => GameScreen(
+                        guestVal: generate4diffnumber(),
+                      ),
                     ),
-                  ),
-                  (route) => false,
-                );
-              },
-              child: const Text('Start Game '),
+                    (route) => false,
+                  );
+                },
+                child: const Text('Start Game '),
+              ),
             ),
           ],
         ),
