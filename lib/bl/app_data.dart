@@ -1,3 +1,4 @@
+import 'package:dead_and_injured/bl/difficulty.dart';
 import 'package:equatable/equatable.dart';
 
 class AppData extends Equatable {
@@ -6,21 +7,27 @@ class AppData extends Equatable {
   final String displayedValue;
   final String currentValue;
   final bool complete;
+  final Difficulty difficulty;
+  final int time;
 
-  const AppData({
-    required this.currentValue,
-    required this.result,
-    required this.displayedValue,
-    required this.generatedValue,
-    required this.complete,
-  });
+  const AppData(
+      {required this.currentValue,
+      required this.result,
+      required this.displayedValue,
+      required this.generatedValue,
+      required this.complete,
+      required this.difficulty,
+      required this.time});
 
-  factory AppData.createDefault(String generatedValue) => AppData(
+  factory AppData.createDefault(String generatedValue, Difficulty difficulty) =>
+      AppData(
         currentValue: "",
         result: <Response>[],
-        displayedValue: "****",
+        displayedValue: "*" * difficulty.length,
         generatedValue: generatedValue,
         complete: false,
+        difficulty: difficulty,
+        time: 0,
       );
 
   AppData copyWith({
@@ -28,6 +35,7 @@ class AppData extends Equatable {
     String? currentValue,
     String? displayedValue,
     bool? complete,
+    int? time,
   }) =>
       AppData(
         currentValue: currentValue ?? this.currentValue,
@@ -35,10 +43,17 @@ class AppData extends Equatable {
         displayedValue: displayedValue ?? this.displayedValue,
         generatedValue: generatedValue,
         complete: complete ?? this.complete,
+        difficulty: difficulty,
+        time: time ?? this.time,
       );
 
   @override
-  List<Object> get props => [result, displayedValue, currentValue];
+  List<Object> get props => [
+        result,
+        displayedValue,
+        currentValue,
+        time,
+      ];
 
   @override
   String toString() {
@@ -57,5 +72,5 @@ class Response {
   @override
   String toString() => "$dead dead, $injured injured";
 
-  bool isDead() => dead == 4;
+  bool isDead(int length) => dead == length;
 }

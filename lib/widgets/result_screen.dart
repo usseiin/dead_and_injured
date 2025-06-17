@@ -12,26 +12,29 @@ class ResultScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<AppDataCubit, AppData>(builder: (context, state) {
-      return Expanded(
-        child: SingleChildScrollView(
-          reverse: true,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              ...List.generate(
-                state.result.length,
-                (index) => ListTile(
-                  leading: Text(state.result[index].value),
-                  title: Text(
-                    "${state.result[index]}",
+    return BlocSelector<AppDataCubit, AppData, List<Response>>(
+      selector: (state) => state.result,
+      builder: (context, state) {
+        return Expanded(
+          child: SingleChildScrollView(
+            reverse: true,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                ...List.generate(
+                  state.length,
+                  (index) => ListTile(
+                    leading: Text(state[index].value),
+                    title: Text(
+                      "${state[index]}",
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
-      );
-    });
+        );
+      },
+    );
   }
 }

@@ -17,10 +17,20 @@ class InputScreen extends StatelessWidget {
         child: Container(
           alignment: Alignment.center,
           color: Colors.grey,
-          child: Text(
-            '${state.displayedValue.split("").join(" ")}\n\n\n${state.currentValue.split('').join(' ')}',
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 20),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                state.displayedValue.split("").join(" "),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 20),
+              ),
+              Text(
+                state.currentValue.split('').join(' '),
+                textAlign: TextAlign.center,
+                style: const TextStyle(fontSize: 20),
+              ),
+            ],
           ),
         ),
       );

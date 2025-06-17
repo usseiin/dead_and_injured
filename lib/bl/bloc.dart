@@ -2,35 +2,38 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:dead_and_injured/bl/app_data.dart';
+import 'package:dead_and_injured/bl/difficulty.dart';
 import 'package:dead_and_injured/bl/generate_random_number.dart';
 import 'package:dead_and_injured/bl/logic.dart';
 
 class AppDataCubit extends Cubit<AppData> {
-  AppDataCubit() : super(AppData.createDefault(generate4diffnumber()));
+  AppDataCubit()
+      : super(AppData.createDefault(generateNumber(), Difficulty.easy));
 
   void restart() {
-    final generatedValue = generate4diffnumber();
-    final newState = AppData.createDefault(generatedValue);
+    final generatedValue = generateNumber(Difficulty.hard);
+    final newState = AppData.createDefault(generatedValue, Difficulty.hard);
     emit(newState);
   }
 
-  void updateValue(int value) {
+  void updateValue(String value) {
     log(state.generatedValue);
-    if (state.currentValue.length < 4 &&
-        !state.currentValue.contains(value.toString())) {
-      final newState =
-          state.copyWith(currentValue: state.currentValue + value.toString());
+    if (state.currentValue.length < state.difficulty.length &&
+        !state.currentValue.contains(value)) {
+      final newState = state.copyWith(currentValue: state.currentValue + value);
       emit(newState);
     }
   }
 
-  void checkInput() {
-    if (state.currentValue.length == 4) {
+  void checkInput(int time) {
+    if (state.currentValue.length == state.difficulty.length) {
       final res = deadAndInjured(state.currentValue.split("").toSet(),
-          state.generatedValue.split("").toSet());
+          state.generatedValue.split("").toSet(), state.difficulty);
       AppData clear = _clear();
-      AppData newState = clear
-          .copyWith(result: [...state.result, res], complete: res.isDead());
+      AppData newState = clear.copyWith(
+          result: [...state.result, res],
+          complete: res.isDead(state.difficulty.length),
+          time: time);
       emit(newState);
     }
   }

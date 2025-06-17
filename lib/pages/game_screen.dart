@@ -23,7 +23,6 @@ class GameScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
-        appBar: AppBar(),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -47,7 +46,9 @@ class GameScreen extends StatelessWidget {
                       child: const Text('clear'),
                     ),
                     ElevatedButton(
-                      onPressed: appData.checkInput,
+                      onPressed: () {
+                        appData.checkInput(7);
+                      },
                       child: const Text('play'),
                     ),
                     ElevatedButton(

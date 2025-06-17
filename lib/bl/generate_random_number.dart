@@ -1,9 +1,10 @@
-import 'dart:math';
+// import 'dart:math';
 
-String generate4diffnumber() {
-  Set<String> set = {};
-  while (set.length < 4) {
-    set.add(Random().nextInt(10).toString());
-  }
-  return set.toList().join("");
+import 'package:dead_and_injured/bl/difficulty.dart';
+
+String generateNumber([Difficulty? difficulty = Difficulty.easy]) {
+  var values = [...difficulty!.value];
+  final length = difficulty.length;
+  values.shuffle();
+  return values.getRange(0, length).join("");
 }
