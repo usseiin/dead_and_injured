@@ -1,6 +1,6 @@
 // import 'dart:math';
 
-import 'package:dead_and_injured/bl/difficulty.dart';
+import 'package:dead_and_injured/enum/difficulty.dart';
 
 String generateNumber([Difficulty? difficulty = Difficulty.easy]) {
   var values = [...difficulty!.value];

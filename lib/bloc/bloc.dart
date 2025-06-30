@@ -1,20 +1,25 @@
 import 'dart:developer';
 
-import 'package:bloc/bloc.dart';
-import 'package:dead_and_injured/bl/app_data.dart';
-import 'package:dead_and_injured/bl/difficulty.dart';
-import 'package:dead_and_injured/bl/generate_random_number.dart';
-import 'package:dead_and_injured/bl/logic.dart';
+import 'package:dead_and_injured/data/app_data.dart';
+import 'package:dead_and_injured/data/app_data_local.dart';
+import 'package:dead_and_injured/enum/difficulty.dart';
+import 'package:dead_and_injured/data/generate_random_number.dart';
+import 'package:dead_and_injured/data/logic.dart';
+import 'package:dead_and_injured/main.dart';
+import 'package:hydrated_bloc/hydrated_bloc.dart';
 
-class AppDataCubit extends Cubit<AppData> {
+class AppDataCubit extends HydratedCubit<AppData> {
   AppDataCubit()
       : super(AppData.createDefault(generateNumber(), Difficulty.easy));
 
-  void restart() {
-    final generatedValue = generateNumber(Difficulty.hard);
-    final newState = AppData.createDefault(generatedValue, Difficulty.hard);
+  void restart([Difficulty? difficulty]) {
+    final diff = difficulty ?? state.difficulty;
+    final generatedValue = generateNumber(diff);
+    final newState = AppData.createDefault(generatedValue, diff);
     emit(newState);
   }
+
+  late DateTime startTime;
 
   void updateValue(String value) {
     log(state.generatedValue);
@@ -35,6 +40,10 @@ class AppDataCubit extends Cubit<AppData> {
           complete: res.isDead(state.difficulty.length),
           time: time);
       emit(newState);
+      if (state.complete) {
+        final data = AppDataLocal.fromAppData(state);
+        appDataBox.put(data);
+      }
     }
   }
 
@@ -43,7 +52,7 @@ class AppDataCubit extends Cubit<AppData> {
     return newState;
   }
 
-  clear() {
+  void clearr() {
     final newState = _clear();
     emit(newState);
   }
@@ -56,4 +65,10 @@ class AppDataCubit extends Cubit<AppData> {
       emit(newState);
     }
   }
+
+  @override
+  AppData fromJson(Map<String, dynamic> json) => AppData.fromJson(json);
+
+  @override
+  Map<String, dynamic> toJson(AppData state) => state.toJson();
 }

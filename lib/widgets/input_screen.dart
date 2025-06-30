@@ -1,7 +1,7 @@
 import 'dart:developer';
 
-import 'package:dead_and_injured/bl/app_data.dart';
-import 'package:dead_and_injured/bl/bloc.dart';
+import 'package:dead_and_injured/data/app_data.dart';
+import 'package:dead_and_injured/bloc/bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

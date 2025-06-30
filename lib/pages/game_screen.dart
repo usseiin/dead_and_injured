@@ -1,5 +1,5 @@
-import 'package:dead_and_injured/bl/app_data.dart';
-import 'package:dead_and_injured/bl/bloc.dart';
+import 'package:dead_and_injured/data/app_data.dart';
+import 'package:dead_and_injured/bloc/bloc.dart';
 import 'package:dead_and_injured/widgets/key_pad.dart';
 import 'package:dead_and_injured/widgets/widgets.dart';
 import 'package:flutter/material.dart';
@@ -18,11 +18,13 @@ class GameScreen extends StatelessWidget {
         if (state.complete) {
           showDialog(
             context: context,
+            barrierDismissible: false,
             builder: (context) => PopScreen(),
           );
         }
       },
       child: Scaffold(
+        appBar: AppBar(),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(16.0),
@@ -42,7 +44,7 @@ class GameScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     ElevatedButton(
-                      onPressed: appData.clear,
+                      onPressed: appData.clearr,
                       child: const Text('clear'),
                     ),
                     ElevatedButton(

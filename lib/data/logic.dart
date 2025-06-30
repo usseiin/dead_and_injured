@@ -1,5 +1,6 @@
-import 'package:dead_and_injured/bl/app_data.dart';
-import 'package:dead_and_injured/bl/difficulty.dart';
+import 'package:dead_and_injured/enum/difficulty.dart';
+
+import 'response.dart';
 
 Response deadAndInjured(Set<String> userInput, Set<String> generatedValue,
     [Difficulty? difficulty = Difficulty.easy]) {

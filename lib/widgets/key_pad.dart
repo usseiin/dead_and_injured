@@ -1,6 +1,6 @@
-import 'package:dead_and_injured/bl/app_data.dart';
-import 'package:dead_and_injured/bl/bloc.dart';
-import 'package:dead_and_injured/bl/difficulty.dart';
+import 'package:dead_and_injured/data/app_data.dart';
+import 'package:dead_and_injured/bloc/bloc.dart';
+import 'package:dead_and_injured/enum/difficulty.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,13 +12,15 @@ class KeyPads extends StatelessWidget {
     return BlocSelector<AppDataCubit, AppData, Difficulty>(
       selector: (state) => state.difficulty,
       builder: (context, state) {
+        final keys = [...state.value];
+        keys.shuffle();
         return Wrap(
           alignment: WrapAlignment.center,
           crossAxisAlignment: WrapCrossAlignment.center,
           spacing: 16,
           runSpacing: 16,
           children: [
-            ...state.value.map(
+            ...keys.map(
               (key) => KeyPadButton(onTap: onTap, index: key),
             )
           ],

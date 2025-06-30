@@ -1,7 +1,7 @@
 import 'dart:math';
 
 import 'package:confetti/confetti.dart';
-import 'package:dead_and_injured/bl/bloc.dart';
+import 'package:dead_and_injured/bloc/bloc.dart';
 import 'package:dead_and_injured/pages/game_screen.dart';
 import 'package:dead_and_injured/pages/home.dart';
 import 'package:flutter/material.dart';
